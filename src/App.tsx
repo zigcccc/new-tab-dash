@@ -1,24 +1,14 @@
 import React from 'react';
+import { LocationContext } from './store';
 
 import { api, IWeatherData } from './utils';
 
 export const App = () => {
-	const [coords, setCoords] = React.useState<Coordinates | null>(null);
+	// const [coords, setCoords] = React.useState<Coordinates | null>(null);
+	const { getCoords, coords } = React.useContext(LocationContext);
 	const [weatherData, setWeatherData] = React.useState<IWeatherData | null>(
 		null
 	);
-	const getCoords = () => {
-		if (!window.navigator) {
-			return console.error('Your browser is not supported...');
-		}
-		navigator.geolocation.getCurrentPosition(
-			({ coords }) => {
-				console.log(coords);
-				setCoords(coords);
-			},
-			(err) => console.error(err)
-		);
-	};
 
 	const getLocationWeatherData = async ({
 		latitude,
