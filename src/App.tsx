@@ -1,26 +1,59 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import { api, IWeatherData } from './utils';
 
-export default App;
+export const App = () => {
+	const [coords, setCoords] = React.useState<Coordinates | null>(null);
+	const [weatherData, setWeatherData] = React.useState<IWeatherData | null>(
+		null
+	);
+	const getCoords = () => {
+		if (!window.navigator) {
+			return console.error('Your browser is not supported...');
+		}
+		navigator.geolocation.getCurrentPosition(
+			({ coords }) => {
+				console.log(coords);
+				setCoords(coords);
+			},
+			(err) => console.error(err)
+		);
+	};
+
+	const getLocationWeatherData = async ({
+		latitude,
+		longitude,
+	}: Coordinates) => {
+		const { data } = await api.get('/weather', {
+			lat: latitude,
+			lon: longitude,
+		});
+
+		setWeatherData(data);
+	};
+	React.useEffect(() => {
+		if (!coords) {
+			getCoords();
+		} else {
+			getLocationWeatherData(coords);
+		}
+	}, [coords]);
+	return (
+		<div className="App">
+			<header className="App-header">
+				{!!coords ? (
+					<p>
+						Your coords are: Lat: {coords.latitude}, Long: {coords.longitude}
+					</p>
+				) : null}
+				{!!weatherData && (
+					<>
+						<strong>You are in: {weatherData.name}</strong>
+						<br />
+						<strong>The weather is: {weatherData.weather[0].main}</strong>
+					</>
+				)}
+			</header>
+		</div>
+	);
+};
