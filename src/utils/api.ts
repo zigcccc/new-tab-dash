@@ -22,7 +22,6 @@ class API {
 			params: { ...params, appid: this.token },
 			url: `${this.baseUrl}${path}`,
 		};
-		console.log(options);
 		return axios.request(options);
 	}
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { LocationProvider } from './store';
+import { LocationProvider, TimeProvider, WeatherProvider } from './store';
 
 import { ThemeSetup } from './styles';
 
@@ -10,11 +10,15 @@ import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
 	<React.StrictMode>
-		<LocationProvider>
-			<ThemeSetup>
-				<App />
-			</ThemeSetup>
-		</LocationProvider>
+		<TimeProvider>
+			<LocationProvider>
+				<WeatherProvider>
+					<ThemeSetup>
+						<App />
+					</ThemeSetup>
+				</WeatherProvider>
+			</LocationProvider>
+		</TimeProvider>
 	</React.StrictMode>,
 	document.getElementById('root')
 );

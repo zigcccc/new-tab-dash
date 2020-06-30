@@ -1,35 +1,25 @@
 import React from 'react';
-import { LocationContext } from './store';
-
-import { api, IWeatherData } from './utils';
+import { LocationContext, TimeContext, WeatherContext } from './store';
 
 export const App = () => {
-	// const [coords, setCoords] = React.useState<Coordinates | null>(null);
 	const { getCoords, coords } = React.useContext(LocationContext);
-	const [weatherData, setWeatherData] = React.useState<IWeatherData | null>(
-		null
-	);
+	const { hours, minutes, date } = React.useContext(TimeContext);
+	const { data: weatherData, getWeather } = React.useContext(WeatherContext);
 
-	const getLocationWeatherData = async ({
-		latitude,
-		longitude,
-	}: Coordinates) => {
-		const { data } = await api.get('/weather', {
-			lat: latitude,
-			lon: longitude,
-		});
-
-		setWeatherData(data);
-	};
 	React.useEffect(() => {
 		if (!coords) {
 			getCoords();
 		} else {
-			getLocationWeatherData(coords);
+			getWeather(coords);
 		}
 	}, [coords]);
+
 	return (
 		<div className="App">
+			<span>
+				{hours}:{minutes} / {date}
+			</span>
+
 			<header className="App-header">
 				{!!coords ? (
 					<p>
