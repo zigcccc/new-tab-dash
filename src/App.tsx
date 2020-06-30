@@ -12,7 +12,7 @@ export const App = () => {
 		} else {
 			getWeather(coords);
 		}
-	}, [coords]);
+	}, [coords, getCoords, getWeather]);
 
 	return (
 		<div className="App">

@@ -1,12 +1,9 @@
 import React from 'react';
 
-import { formatTimeString, formatDateString } from '../utils';
+import { ITimeState, TimeProviderProps } from './interfaces';
+import { TimeReducer, SET_DATE, SET_TIME } from './reducer';
 
-export interface ITimeState {
-	minutes: string;
-	hours: string;
-	date: string;
-}
+import { formatTimeString, formatDateString } from '../../utils';
 
 export const timeInitialState = {
 	minutes: formatTimeString(new Date().getMinutes()),
@@ -15,34 +12,6 @@ export const timeInitialState = {
 };
 
 export const TimeContext = React.createContext(timeInitialState as ITimeState);
-
-export interface TimeProviderProps {
-	children: React.ReactChild;
-}
-
-export const SET_TIME = 'SET_TIME';
-export const SET_DATE = 'SET_DATE';
-
-const TimeReducer = (state: any, action: { type: string; payload: any }) => {
-	switch (action.type) {
-		case SET_TIME: {
-			return {
-				...state,
-				hours: action.payload.hours,
-				minutes: action.payload.minutes,
-			};
-		}
-		case SET_DATE: {
-			return {
-				...state,
-				date: action.payload.date,
-			};
-		}
-		default: {
-			return state;
-		}
-	}
-};
 
 export const TimeProvider = ({ children }: TimeProviderProps) => {
 	const [state, dispatch] = React.useReducer<React.Reducer<any, any>>(

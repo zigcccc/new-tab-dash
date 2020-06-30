@@ -1,12 +1,14 @@
 import React from 'react';
 
-import { IWeatherData, api } from '../utils';
+import {
+	IWeatherData,
+	IWeatherState,
+	WeatherProviderProps,
+} from './interfaces';
+import { WeatherReducer, SET_WEATHER_DATA } from './reducer';
 
-export interface IWeatherState {
-	data: IWeatherData | null;
-	getWeather?: any;
-	setWeather?: any;
-}
+import { api } from '../../utils';
+
 export const weatherInitialState = {
 	data: null,
 };
@@ -14,26 +16,6 @@ export const weatherInitialState = {
 export const WeatherContext = React.createContext(
 	weatherInitialState as IWeatherState
 );
-
-export interface WeatherProviderProps {
-	children: React.ReactChild;
-}
-
-export const SET_WEATHER_DATA = 'SET_WEATHER_DATA';
-
-const WeatherReducer = (state: any, action: { type: string; payload: any }) => {
-	switch (action.type) {
-		case SET_WEATHER_DATA: {
-			return {
-				...state,
-				data: action.payload.data,
-			};
-		}
-		default: {
-			return state;
-		}
-	}
-};
 
 export const WeatherProvider = ({ children }: WeatherProviderProps) => {
 	const [state, dispatch] = React.useReducer<React.Reducer<any, any>>(

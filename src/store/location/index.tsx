@@ -1,10 +1,8 @@
 import React from 'react';
 
-export interface ILocationState {
-	coords: Coordinates | null;
-	setCoords?: any;
-	getCoords?: any;
-}
+import { ILocationState, LocationProviderProps } from './interfaces';
+import { LocationReducer, SET_COORDS } from './reducer';
+
 export const locationInitialState = {
 	coords: null,
 };
@@ -12,30 +10,6 @@ export const locationInitialState = {
 export const LocationContext = React.createContext(
 	locationInitialState as ILocationState
 );
-
-export interface LocationProviderProps {
-	children: React.ReactChild;
-}
-
-export const SET_COORDS = 'SET_COORDS';
-
-const LocationReducer = (
-	state: any,
-	action: { type: string; payload: any }
-) => {
-	switch (action.type) {
-		case SET_COORDS: {
-			const { latitude, longitude } = action.payload;
-			return {
-				...state,
-				coords: { latitude, longitude },
-			};
-		}
-		default: {
-			return state;
-		}
-	}
-};
 
 export const LocationProvider = ({ children }: LocationProviderProps) => {
 	const [state, dispatch] = React.useReducer<React.Reducer<any, any>>(
