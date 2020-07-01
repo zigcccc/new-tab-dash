@@ -17,6 +17,10 @@ export const GlobalStyle = createGlobalStyle<{ theme: ThemeType }>`
 			font-size: 13px;
 		}
 	}
+
+	* {
+		box-sizing: border-box;
+	}
 	
 	body {
 		background-color: ${({ theme }) => theme.bg};

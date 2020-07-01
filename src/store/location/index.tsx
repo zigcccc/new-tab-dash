@@ -3,13 +3,11 @@ import React from 'react';
 import { ILocationState, LocationProviderProps } from './interfaces';
 import { LocationReducer, SET_COORDS } from './reducer';
 
-export const locationInitialState = {
+export const locationInitialState: ILocationState = {
 	coords: null,
 };
 
-export const LocationContext = React.createContext(
-	locationInitialState as ILocationState
-);
+export const LocationContext = React.createContext(locationInitialState);
 
 export const LocationProvider = ({ children }: LocationProviderProps) => {
 	const [state, dispatch] = React.useReducer<React.Reducer<any, any>>(
@@ -38,7 +36,11 @@ export const LocationProvider = ({ children }: LocationProviderProps) => {
 
 	return (
 		<LocationContext.Provider
-			value={{ coords: state.coords, setCoords, getCoords }}
+			value={{
+				coords: state.coords,
+				setCoords,
+				getCoords,
+			}}
 		>
 			{children}
 		</LocationContext.Provider>

@@ -1,4 +1,5 @@
 export const SET_WEATHER_DATA = 'SET_WEATHER_DATA';
+export const SET_WEATHER_IMAGE = 'SET_WEATHER_IMAGE';
 
 export const WeatherReducer = (
 	state: any,
@@ -9,6 +10,12 @@ export const WeatherReducer = (
 			return {
 				...state,
 				data: action.payload.data,
+			};
+		}
+		case SET_WEATHER_IMAGE: {
+			return {
+				...state,
+				weatherImage: action.payload.image,
 			};
 		}
 		default: {
