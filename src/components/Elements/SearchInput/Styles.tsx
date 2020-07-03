@@ -9,6 +9,15 @@ export const StyledSearchInput = styled.div`
 	display: flex;
 	align-items: center;
 
+	.search-icon {
+		color: ${({ theme }) => theme.gray__4};
+		transition: 200ms ease-in-out all;
+
+		&--active {
+			color: ${({ theme }) => theme.fg};
+		}
+	}
+
 	input {
 		width: calc(100% - 2.2em);
 		margin-left: 1em;

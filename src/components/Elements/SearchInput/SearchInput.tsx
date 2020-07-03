@@ -10,6 +10,7 @@ export interface SearchInputProps {}
 
 export const SearchInput = ({}: SearchInputProps) => {
 	const [query, setQuery] = React.useState('');
+	const [focused, setFocused] = React.useState(false);
 	const inputRef = React.useRef() as MutableRefObject<HTMLInputElement>;
 
 	const focusInput = () => {
@@ -38,7 +39,9 @@ export const SearchInput = ({}: SearchInputProps) => {
 
 	return (
 		<StyledSearchInput className="search-input" onClick={focusInput}>
-			<Icons.Search />
+			<span className={cs('search-icon', { 'search-icon--active': focused })}>
+				<Icons.Search />
+			</span>
 			<input
 				className="input"
 				placeholder="What would you like to find today?"
@@ -47,6 +50,8 @@ export const SearchInput = ({}: SearchInputProps) => {
 				value={query}
 				onKeyPress={handleKeyPress}
 				onChange={handleTextChange}
+				onFocus={() => setFocused(true)}
+				onBlur={() => setFocused(false)}
 			/>
 			<span
 				onClick={submitQuery}
